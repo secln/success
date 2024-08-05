@@ -17,7 +17,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Verification was successful! You may close your browser.</p>
+                    <p>Verification was successful! Please close your browser window.</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id="closeButton">Close Browser</button>
@@ -31,7 +31,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- JavaScript to show modal and close the browser -->
+    <!-- JavaScript to show modal and handle the browser close action -->
     <script>
         $(document).ready(function(){
             // Show the modal when the page loads
@@ -40,10 +40,13 @@
             // Add click event listener to the Close Browser button
             $('#closeButton').on('click', function() {
                 // Attempt to close the browser window
-                window.close();
-                if (window.opener) {
-                    window.opener.close();
+                try {
+                    window.open('', '_self', ''); // Needed to trigger some browsers to allow close
+                    window.close();
+                } catch (e) {
+                    console.log('Close attempt failed:', e);
                 }
+                
                 // Fallback alert if browser cannot be closed
                 alert('Please manually close your browser.');
             });
